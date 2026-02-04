@@ -3,101 +3,556 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Topo</title>
+    <meta name="description" content="Topo - AI驱动的数学学习革命，知识图谱精准诊断，让数学学习更高效">
+    <meta name="keywords" content="数学学习,AI教育,知识图谱,在线学习">
+    <title>Topo - AI数学学习的未来</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f5f5f7;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* 动态渐变背景 */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #0a0e27, #1a1f3a, #2a1a3a);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 粒子效果 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(99, 102, 241, 0.8);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 14, 39, 0.8);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 15px 50px;
+            background: rgba(10, 14, 39, 0.95);
+            box-shadow: 0 4px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            padding: 100px 50px 50px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1200px;
             text-align: center;
+            z-index: 10;
         }
-        .container {
-            background: white;
-            padding: 40px 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            width: 90%;
-            max-width: 400px;
-        }
-        .logo {
-            width: 100px;
-            height: 100px;
-            border-radius: 22px;
+
+        .hero h1 {
+            font-size: clamp(40px, 8vw, 80px);
+            font-weight: 900;
             margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 1s ease;
+            line-height: 1.2;
         }
-        h1 { font-size: 24px; margin: 0 0 10px 0; color: #1d1d1f; }
-        p { color: #86868b; margin: 0 0 30px 0; font-size: 16px; }
+
+        .hero p {
+            font-size: clamp(18px, 3vw, 24px);
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.4s backwards;
+        }
+
         .btn {
-            display: block;
-            width: 100%;
-            padding: 15px 0;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            text-decoration: none;
+            padding: 18px 40px;
+            font-size: 18px;
             font-weight: 600;
-            font-size: 16px;
-            transition: transform 0.1s;
-        }
-        .btn:active { transform: scale(0.98); }
-        .btn-ios {
-            background-color: #007aff;
-            color: white;
-        }
-        .btn-android {
-            background-color: #34c759;
-            color: white;
-        }
-        .footer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #d2d2d7;
-        }
-        .footer a {
-            color: #0071e3;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
             text-decoration: none;
-            margin: 0 8px;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
         }
-        .footer a:hover {
-            text-decoration: underline;
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+        /* 特性区域 */
+        .features {
+            padding: 100px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: float-icon 3s ease-in-out infinite;
+        }
+
+        @keyframes float-icon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* 下载区域 */
+        .download-section {
+            padding: 100px 50px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            backdrop-filter: blur(10px);
+        }
+
+        .download-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .qr-code {
+            display: inline-block;
+            width: 200px;
+            height: 200px;
+            background: #fff;
+            border-radius: 20px;
+            margin: 30px 0;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 页脚 */
+        .footer {
+            padding: 50px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(10, 14, 39, 0.8);
+        }
+
         .footer-links {
-            margin: 15px 0 10px 0;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 80px 20px 50px;
+            }
+
+            .features {
+                padding: 50px 20px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* 滚动动画 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <!-- 1. 这里换你的 Logo 图片路径 -->
-    <img src="logo.png" alt="Topo Logo" class="logo">
+    <!-- 动态背景 -->
+    <div class="animated-bg"></div>
     
-    <h1>Topo 数学</h1>
-    <p>AI 根因诊断 · 知识图谱 · 提分神器</p>
+    <!-- 粒子效果 -->
+    <div class="particles" id="particles"></div>
 
-    <!-- 2. 这里填你的 App Store 链接 (没有就先填 #) -->
-    <a href="#" class="btn btn-ios">
-         App Store 下载
-    </a>
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">TOPO</div>
+        <div class="nav-links">
+            <a href="#features">特性</a>
+            <a href="#download">下载</a>
+            <a href="privacy-zh.html">隐私政策</a>
+        </div>
+    </nav>
 
-    <!-- 3. 这里填你的 APK 文件相对路径 -->
-    <a href="./app-release.apk" class="btn btn-android">
-        🤖 Android 版下载
-    </a>
-</div>
+    <!-- Hero 区域 -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>AI 驱动的<br>数学学习革命</h1>
+            <p>知识图谱精准诊断 · 根因分析 · 个性化学习路径</p>
+            <div class="cta-buttons">
+                <a href="#download" class="btn btn-primary">立即体验</a>
+                <a href="#features" class="btn btn-secondary">了解更多</a>
+            </div>
+        </div>
+    </section>
 
-<div class="footer">
-    <div class="footer-links">
-        <a href="privacy-zh.html">隐私政策</a>
-        <a href="privacy-en.html">Privacy Policy</a>
-    </div>
-    &copy; 2026 Topo Math. All rights reserved.
-</div>
+    <!-- 特性区域 -->
+    <section class="features fade-in" id="features">
+        <h2 class="section-title">为什么选择 Topo？</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>AI 根因诊断</h3>
+                <p>深度分析学习问题，精准定位知识薄弱点，不再盲目刷题，让每一次学习都有针对性</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>知识图谱导航</h3>
+                <p>可视化知识关联，清晰展现学习路径，从基础到进阶，循序渐进掌握数学体系</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>智能学习报告</h3>
+                <p>实时追踪学习进度，数据驱动学习决策，让成长清晰可见，家长更放心</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>个性化推荐</h3>
+                <p>基于你的学习数据，智能推送最适合的练习题和知识点，高效提分</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💡</div>
+                <h3>互动式学习</h3>
+                <p>告别枯燥的题海战术，趣味化交互让数学学习变得生动有趣</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎓</div>
+                <h3>名师精讲</h3>
+                <p>汇集顶尖数学教育资源，每个知识点都有详细讲解和示例</p>
+            </div>
+        </div>
+    </section>
 
+    <!-- 下载区域 -->
+    <section class="download-section fade-in" id="download">
+        <div class="download-content">
+            <h2 class="section-title">开启学习新体验</h2>
+            <p style="font-size: 18px; color: rgba(255,255,255,0.8); margin-bottom: 30px;">
+                支持 iOS 和 Android 双平台，随时随地高效学习
+            </p>
+            
+            <!-- 二维码占位 -->
+            <div class="qr-code" style="color: #333; display: flex; align-items: center; justify-content: center; font-size: 14px;">
+                扫码下载 App
+            </div>
+
+            <div class="cta-buttons" style="margin-top: 40px;">
+                <a href="#" class="btn btn-primary">📱 App Store</a>
+                <a href="./app-release.apk" class="btn btn-secondary">🤖 Android APK</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="privacy-zh.html">隐私政策</a>
+            <a href="privacy-en.html">Privacy Policy</a>
+            <a href="mailto:support@topo.com">联系我们</a>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Topo Math. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // 生成粒子
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
